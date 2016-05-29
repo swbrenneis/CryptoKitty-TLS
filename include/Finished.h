@@ -2,7 +2,6 @@
 #define FINISHED_H_INCLUDED
 
 #include "HandshakeBody.h"
-#include "Constants.h"
 
 namespace CKTLS {
 

@@ -2,7 +2,7 @@
 #define CLIENTKEYEXCHANGE_H_INCLUDED
 
 #include "HandshakeBody.h"
-#include "Constants.h"
+#include "TLSConstants.h"
 #include "keys/ECDHKeyExchange.h"
 #include "data/BigInteger.h"
 

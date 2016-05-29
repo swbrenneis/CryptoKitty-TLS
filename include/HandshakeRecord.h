@@ -2,7 +2,6 @@
 #define HANDSHAKERECORD_H_INCLUDED
 
 #include "RecordProtocol.h"
-#include "Constants.h"
 
 namespace CKTLS {
 

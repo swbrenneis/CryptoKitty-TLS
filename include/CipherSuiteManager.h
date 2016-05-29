@@ -2,7 +2,7 @@
 #define CIPHERSUITEMANAGER_H_INCLUDED
 
 #include "coder/ByteArray.h"
-#include "Constants.h"
+#include "TLSConstants.h"
 #include <deque>
 #include <iostream>
 

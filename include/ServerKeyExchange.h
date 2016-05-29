@@ -2,7 +2,7 @@
 #define SERVERKEYEXCHANGE_H_INCLUDED
 
 #include "HandshakeBody.h"
-#include "Constants.h"
+#include "TLSConstants.h"
 #include "keys/ECDHKeyExchange.h"
 
 namespace CK {
