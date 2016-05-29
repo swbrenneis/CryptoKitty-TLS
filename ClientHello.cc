@@ -1,9 +1,9 @@
-#include "ClientHello.h"
-#include "ExtensionManager.h"
+#include "tls/ClientHello.h"
+#include "tls/ExtensionManager.h"
 #include "coder/Unsigned32.h"
 #include "random/FortunaSecureRandom.h"
 #include "exceptions/OutOfRangeException.h"
-#include "exceptions/RecordException.h"
+#include "tls/exceptions/RecordException.h"
 #include <time.h>
 
 namespace CKTLS {

@@ -1,5 +1,5 @@
-#include "ServerCertificate.h"
-#include "exceptions/RecordException.h"
+#include "tls/ServerCertificate.h"
+#include "tls/exceptions/RecordException.h"
 #include "coder/Unsigned64.h"
 #include "coder/Unsigned16.h"
 

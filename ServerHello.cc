@@ -1,12 +1,11 @@
-#include "ServerHello.h"
-#include "ClientHello.h"
-#include "Constants.h"
-#include "ServerKeyExchange.h"
+#include "tls/ServerHello.h"
+#include "tls/ClientHello.h"
+#include "tls/ServerKeyExchange.h"
 #include "coder/Unsigned32.h"
 #include "random/FortunaSecureRandom.h"
 #include "exceptions/OutOfRangeException.h"
-#include "exceptions/RecordException.h"
-#include "exceptions/StateException.h"
+#include "tls/exceptions/RecordException.h"
+#include "tls/exceptions/StateException.h"
 #include <time.h>
 
 namespace CKTLS {

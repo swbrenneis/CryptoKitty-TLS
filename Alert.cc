@@ -1,5 +1,5 @@
-#include "Alert.h"
-#include "exceptions/RecordException.h"
+#include "tls/Alert.h"
+#include "tls/exceptions/RecordException.h"
 
 namespace CKTLS {
 

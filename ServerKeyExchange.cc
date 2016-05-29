@@ -1,6 +1,6 @@
-#include "ServerKeyExchange.h"
-#include "ConnectionState.h"
-#include "ServerCertificate.h"
+#include "tls/ServerKeyExchange.h"
+#include "tls/ConnectionState.h"
+#include "tls/ServerCertificate.h"
 #include "cipher/PKCS1rsassa.h"
 #include "keys/RSAPrivateKey.h"
 #include "coder/Unsigned16.h"
@@ -8,8 +8,8 @@
 #include "digest/SHA256.h"
 #include "digest/SHA384.h"
 #include "digest/SHA512.h"
-#include "exceptions/RecordException.h"
-#include "exceptions/EncodingException.h"
+#include "tls/exceptions/RecordException.h"
+#include "tls/exceptions/EncodingException.h"
 
 namespace CKTLS {
 

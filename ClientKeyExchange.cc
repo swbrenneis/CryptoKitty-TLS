@@ -1,7 +1,7 @@
-#include "ClientKeyExchange.h"
+#include "tls/ClientKeyExchange.h"
 #include "coder/Unsigned16.h"
-#include "exceptions/RecordException.h"
-#include "exceptions/EncodingException.h"
+#include "tls/exceptions/RecordException.h"
+#include "tls/exceptions/EncodingException.h"
 
 namespace CKTLS {
 

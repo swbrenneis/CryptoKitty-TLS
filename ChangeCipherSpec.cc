@@ -1,10 +1,10 @@
-#include "ChangeCipherSpec.h"
-#include "ConnectionState.h"
+#include "tls/ChangeCipherSpec.h"
+#include "tls/ConnectionState.h"
 #include "cipher/AES.h"
 #include "ciphermodes/GCM.h"
 #include "coder/Unsigned64.h"
-#include "exceptions/EncodingException.h"
-#include "exceptions/RecordException.h"
+#include "tls/exceptions/EncodingException.h"
+#include "tls/exceptions/RecordException.h"
 
 namespace CKTLS {
 

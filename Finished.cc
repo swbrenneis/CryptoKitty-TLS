@@ -1,10 +1,10 @@
-#include "Finished.h"
-#include "ConnectionState.h"
+#include "tls/Finished.h"
+#include "tls/ConnectionState.h"
 #include "mac/HMAC.h"
 #include "digest/SHA256.h"
 #include "digest/SHA384.h"
 #include "digest/SHA512.h"
-#include "exceptions/RecordException.h"
+#include "tls/exceptions/RecordException.h"
 
 namespace CKTLS {
 

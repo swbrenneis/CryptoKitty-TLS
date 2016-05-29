@@ -1,6 +1,6 @@
-#include "CipherSuiteManager.h"
+#include "tls/CipherSuiteManager.h"
 #include "coder/Unsigned16.h"
-#include "exceptions/RecordException.h"
+#include "tls/exceptions/RecordException.h"
 
 namespace CKTLS {
 
