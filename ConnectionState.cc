@@ -3,11 +3,15 @@
 #include "mac/HMAC.h"
 #include "tls/exceptions/StateException.h"
 #include "tls/exceptions/BadParameterException.h"
-#include "cthread/ThreadLocal.h"
 #include <iostream>
+
+#ifdef _TLS_THREAD_LOCAL_
+#include "cthread/ThreadLocal.h"
+#endif
 
 namespace CKTLS {
 
+#ifdef _TLS_THREAD_LOCAL_
 // Static initialization.
 cthread::ThreadLocal *ConnectionState::currentRead = 0;
 cthread::ThreadLocal *ConnectionState::currentWrite = 0;
@@ -15,6 +19,7 @@ cthread::ThreadLocal *ConnectionState::pendingRead = 0;
 cthread::ThreadLocal *ConnectionState::pendingWrite = 0;
 
 typedef cthread::TypedThreadLocal<ConnectionState> LocalConnectionState;
+#endif
 
 ConnectionState::ConnectionState()
 : initialized(false),
@@ -118,6 +123,7 @@ const coder::ByteArray& ConnectionState::getClientRandom() const {
 
 }
 
+#ifdef _TLS_THREAD_LOCAL_
 ConnectionState *ConnectionState::getCurrentRead() {
 
     if (currentRead == 0) {
@@ -137,6 +143,7 @@ ConnectionState *ConnectionState::getCurrentWrite() {
     return dynamic_cast<LocalConnectionState*>(currentWrite)->getLocal();
 
 }
+#endif
 
 const coder::ByteArray& ConnectionState::getEncryptionKey() const {
 
@@ -189,6 +196,7 @@ const coder::ByteArray& ConnectionState::getMasterSecret() const {
 
 }
 
+#ifdef _TLS_THREAD_LOCAL_
 ConnectionState *ConnectionState::getPendingRead() {
 
     if (pendingRead == 0) {
@@ -222,6 +230,7 @@ ConnectionState *ConnectionState::getPendingWrite() {
     return pw;
 
 }
+#endif
 
 /*
  * Returns the current sequence number.
@@ -247,6 +256,7 @@ void ConnectionState::incrementSequence() {
 
 }
 
+#ifdef _TLS_THREAD_LOCAL_
 /*
  * promote the pending read state. Throws StateException if
  * the pending read state is uninitialized.
@@ -288,6 +298,41 @@ void ConnectionState::promoteWrite() {
     getPendingWrite()->initialized = false;
 
 }
+#else
+/*
+ * promote the pending read state. Throws StateException if
+ * the pending read state is uninitialized.
+ */
+void ConnectionState::promoteRead(StateContainer *holder) {
+
+    if (holder->pendingRead == 0 || !holder->pendingRead->initialized) {
+        throw StateException("Pending read state not initialized.");
+    }
+
+    delete holder->currentRead;
+    holder->currentRead = holder->pendingRead;
+    holder->pendingRead = new ConnectionState(*holder->currentRead);
+    holder->pendingRead->initialized = false;
+
+}
+
+/*
+ * promote the pending write state. Throws StateException if
+ * the pending write state is uninitialized.
+ */
+void ConnectionState::promoteWrite(StateContainer *holder) {
+
+    if (holder->pendingWrite == 0 || !holder->pendingWrite->initialized) {
+        throw StateException("Pending write state not initialized.");
+    }
+
+    delete holder->currentWrite;
+    holder->currentWrite = holder->pendingWrite;
+    holder->pendingWrite = new ConnectionState(*holder->currentWrite);
+    holder->pendingWrite->initialized = false;
+
+}
+#endif
 
 void ConnectionState::setCipherAlgorithm(BulkCipherAlgorithm alg) {
 

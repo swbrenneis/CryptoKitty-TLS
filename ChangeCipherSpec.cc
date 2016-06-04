@@ -12,10 +12,16 @@ namespace CKTLS {
 const uint8_t ChangeCipherSpec::MAJORVERSION = 3;
 const uint8_t ChangeCipherSpec::MINORVERSION = 3;
 
+#ifdef _TLS_THREAD_LOCAL_
 ChangeCipherSpec::ChangeCipherSpec()
 : RecordProtocol(change_cipher_spec) {
 }
-
+#else
+ChangeCipherSpec::ChangeCipherSpec(StateContainer *h)
+: RecordProtocol(change_cipher_spec),
+  holder(h) {
+}
+#endif
 ChangeCipherSpec::~ChangeCipherSpec() {
 }
 
@@ -24,7 +30,11 @@ ChangeCipherSpec::~ChangeCipherSpec() {
  */
 void ChangeCipherSpec::decode() {
 
+#ifdef _TLS_THREAD_LOCAL_
     ConnectionState *state = ConnectionState::getPendingRead();
+#else
+    ConnectionState *state = holder->getPendingRead();
+#endif
 
     switch(state->getCipherType()) {
         case stream:
@@ -66,7 +76,11 @@ void ChangeCipherSpec::decode() {
 
 void ChangeCipherSpec::encode() {
 
+#ifdef _TLS_THREAD_LOCAL_
     ConnectionState *state = ConnectionState::getPendingWrite();
+#else
+    ConnectionState *state = holder->getPendingWrite();
+#endif
 
     coder::ByteArray plaintext(1, 1);
 

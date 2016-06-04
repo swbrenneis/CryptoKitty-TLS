@@ -16,7 +16,12 @@ namespace CKTLS {
 // Static initialization.
 KeyExchangeAlgorithm ServerKeyExchange::algorithm;
 
+#ifdef _TLS_THREAD_LOCAL_
 ServerKeyExchange::ServerKeyExchange() {
+#else
+ServerKeyExchange::ServerKeyExchange(StateContainer *h)
+: holder(h) {
+#endif
 
     rsaKey = ServerCertificate::getRSAPrivateKey();
 
@@ -27,8 +32,13 @@ ServerKeyExchange::~ServerKeyExchange() {
 
 void ServerKeyExchange::decode() {
 
+#ifdef _TLS_THREAD_LOCAL_
     clientRandom = ConnectionState::getPendingWrite()->getClientRandom();
     serverRandom = ConnectionState::getPendingWrite()->getServerRandom();
+#else
+    clientRandom = holder->getPendingWrite()->getClientRandom();
+    serverRandom = holder->getPendingWrite()->getServerRandom();
+#endif
 
     switch (algorithm) {
         case dhe_rsa:
@@ -268,8 +278,13 @@ void ServerKeyExchange::decodeECDH() {
 
 const coder::ByteArray& ServerKeyExchange::encode() {
 
+#ifdef _TLS_THREAD_LOCAL_
     clientRandom = ConnectionState::getPendingRead()->getClientRandom();
     serverRandom = ConnectionState::getPendingRead()->getServerRandom();
+#else
+    clientRandom = holder->getPendingRead()->getClientRandom();
+    serverRandom = holder->getPendingRead()->getServerRandom();
+#endif
 
     switch (algorithm) {
         case dhe_rsa:

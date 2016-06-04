@@ -11,10 +11,18 @@ namespace CK {
 
 namespace CKTLS {
 
+#ifndef _TLS_THREAD_LOCAL_
+    class StateContainer;
+#endif
+
 class ServerKeyExchange : public HandshakeBody {
 
     public:
+#ifdef _TLS_THREAD_LOCAL_
         ServerKeyExchange();
+#else
+        ServerKeyExchange(StateContainer *holder);
+#endif
         ~ServerKeyExchange();
 
     private:
@@ -82,6 +90,9 @@ class ServerKeyExchange : public HandshakeBody {
         
         // Key exchange
         coder::ByteArray ecPublicKey;
+#ifndef _TLS_THREAD_LOCAL_
+        StateContainer *holder;
+#endif
 
 };
 

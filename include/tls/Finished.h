@@ -5,10 +5,18 @@
 
 namespace CKTLS {
 
+#ifndef _TLS_THREAD_LOCAL_
+class StateContainer;
+#endif
+
 class Finished : public HandshakeBody {
 
     public:
+#ifdef _TLS_THREAD_LOCAL_
         Finished();
+#else
+        Finished(StateContainer *holder);
+#endif
         ~Finished();
 
     public:
@@ -22,6 +30,9 @@ class Finished : public HandshakeBody {
 
     private:
         coder::ByteArray finished;
+#ifndef _TLS_THREAD_LOCAL_
+        StateContainer *holder;
+#endif
 
 };
 

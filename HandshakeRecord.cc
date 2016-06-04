@@ -13,18 +13,37 @@
 
 namespace CKTLS {
 
+#ifdef _TLS_THREAD_LOCAL_
 HandshakeRecord::HandshakeRecord()
 : RecordProtocol(handshake),
   body(0) {
 }
+#else
+HandshakeRecord::HandshakeRecord(StateContainer *hold)
+: RecordProtocol(handshake),
+  body(0),
+  holder(hold) {
+}
+#endif
 
+#ifdef _TLS_THREAD_LOCAL_
 HandshakeRecord::HandshakeRecord(HandshakeType h)
 : RecordProtocol(handshake),
   body(0),
   type(h) {
+#else
+HandshakeRecord::HandshakeRecord(HandshakeType h, StateContainer *hold)
+: RecordProtocol(handshake),
+  body(0),
+  type(h),
+  holder(hold) {
+#endif
 
+#ifdef _TLS_THREAD_LOCAL_
     ConnectionEnd end = ConnectionState::getPendingRead()->getEntity();
-
+#else
+    ConnectionEnd end = holder->getPendingRead()->getEntity();
+#endif
     switch (type) {
         case hello_request:
             if (end != server) {
@@ -63,7 +82,11 @@ HandshakeRecord::HandshakeRecord(HandshakeType h)
             if (end != server) {
                 throw RecordException("Wrong connection state");
             }
+#ifdef _TLS_THREAD_LOCAL_
             body = new ServerKeyExchange;
+#else
+            body = new ServerKeyExchange(holder);
+#endif
             break;
         case client_key_exchange:
             if (end != client) {
@@ -72,7 +95,11 @@ HandshakeRecord::HandshakeRecord(HandshakeType h)
             body = new ClientKeyExchange;
             break;
         case finished:
+#ifdef _TLS_THREAD_LOCAL_
             body = new Finished;
+#else
+            body = new Finished(holder);
+#endif
             break;
         default:
             throw RecordException("Invalid handshake type");
@@ -119,13 +146,21 @@ void HandshakeRecord::decode() {
             body = new ServerHelloDone;
             break;
         case server_key_exchange:
+#ifdef _TLS_THREAD_LOCAL_
             body = new ServerKeyExchange;
+#else
+            body = new ServerKeyExchange(holder);
+#endif
             break;
         case client_key_exchange:
             body = new ClientKeyExchange;
             break;
         case finished:
+#ifdef _TLS_THREAD_LOCAL_
             body = new Finished;
+#else
+            body = new Finished(holder);
+#endif
             break;
         default:
             throw RecordException("Invalid handshake type");

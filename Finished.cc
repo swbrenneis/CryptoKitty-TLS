@@ -8,15 +8,25 @@
 
 namespace CKTLS {
 
+#ifdef _TLS_THREAD_LOCAL_
 Finished::Finished() {
 }
+#else
+Finished::Finished(StateContainer *h)
+: holder(h) {
+}
+#endif
 
 Finished::~Finished() {
 }
 
 bool Finished::authenticate(const coder::ByteArray& fin) const {
 
+#ifdef _TLS_THREAD_LOCAL_
     ConnectionState *state = ConnectionState::getCurrentRead();
+#else
+    ConnectionState *state = holder->getCurrentRead();
+#endif
     MACAlgorithm mac = state->getHMAC();
     CK::Digest *digest;
     switch (mac) {
@@ -65,7 +75,11 @@ const coder::ByteArray& Finished::encode() {
 
     encoded.clear();
 
+#ifdef _TLS_THREAD_LOCAL_
     ConnectionState *state = ConnectionState::getCurrentWrite();
+#else
+    ConnectionState *state = holder->getCurrentWrite();
+#endif
     MACAlgorithm mac = state->getHMAC();
     CK::Digest *digest;
     switch (mac) {

@@ -8,11 +8,20 @@ namespace CKTLS {
 class HandshakeBody;
 class ConnectionState;
 
+#ifndef _TLS_THREAD_LOCAL_
+class StateContainer;
+#endif
+
 class HandshakeRecord : public RecordProtocol {
 
     public:
+#ifdef _TLS_THREAD_LOCAL_
         HandshakeRecord();
         HandshakeRecord(HandshakeType h);
+#else
+        HandshakeRecord(StateContainer* holder);
+        HandshakeRecord(HandshakeType h, StateContainer *holder);
+#endif
         HandshakeRecord(const HandshakeRecord& other);
         HandshakeRecord& operator= (const HandshakeRecord& other);
         ~HandshakeRecord();
@@ -28,6 +37,9 @@ class HandshakeRecord : public RecordProtocol {
     private:
         HandshakeBody *body;
         HandshakeType type;
+#ifndef _TLS_THREAD_LOCAL_
+        StateContainer *holder;
+#endif
 
 };
 

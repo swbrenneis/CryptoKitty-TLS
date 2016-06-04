@@ -8,16 +8,27 @@
 
 namespace CKTLS {
 
+#ifdef _TLS_THREAD_LOCAL_
 CipherText::CipherText()
 : RecordProtocol(application_data) {
 }
+#else
+CipherText::CipherText(StateContainer *h)
+: RecordProtocol(application_data),
+  holder(h) {
+}
+#endif
 
 CipherText::~CipherText() {
 }
 
 void CipherText::decode() {
 
+#ifdef _TLS_THREAD_LOCAL_
     ConnectionState *state = ConnectionState::getCurrentWrite();
+#else
+    ConnectionState *state = holder->getCurrentWrite();
+#endif
 
     uint8_t ivLength = fragment[0];
     iv = fragment.range(1, ivLength);
@@ -80,7 +91,11 @@ void CipherText::decryptGCM(const coder::ByteArray& ciphertext,CK::Cipher *ciphe
 
 void CipherText::encode() {
 
+#ifdef _TLS_THREAD_LOCAL_
     ConnectionState *state = ConnectionState::getCurrentRead();
+#else
+    ConnectionState *state = holder->getCurrentRead();
+#endif
 
     fragment.clear();
 

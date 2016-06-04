@@ -10,6 +10,10 @@ namespace cthread {
 
 namespace CKTLS {
 
+#ifndef _TLS_THREAD_LOCAL_
+class StateContainer;
+#endif
+
 class ConnectionState {
 
     public:
@@ -53,18 +57,29 @@ class ConnectionState {
         const coder::ByteArray& getServerRandom() const;
         // Create the master secret and generate the write keys.
         // Get current and pending state instances.
+#ifdef _TLS_THREAD_LOCAL_
         static ConnectionState *getCurrentRead();
         static ConnectionState *getCurrentWrite();
         static ConnectionState *getPendingRead();
         static ConnectionState *getPendingWrite();
+#endif
         // Increment the sequence number.
         void incrementSequence();
+#ifdef _TLS_THREAD_LOCAL_
         // Promotes the pending read state to current and
         // initializes a new pending state.
         void promoteRead();
         // Promotes the pending write state to current and
         // initializes a new pending state.
         void promoteWrite();
+#else
+        // Promotes the pending read state to current and
+        // initializes a new pending state.
+        void promoteRead(StateContainer *container);
+        // Promotes the pending write state to current and
+        // initializes a new pending state.
+        void promoteWrite(StateContainer *container);
+#endif
         // Sets the block cipher algorithm.
         void setCipherAlgorithm(BulkCipherAlgorithm alg);
         // Sets the cipher mode.
@@ -111,6 +126,7 @@ class ConnectionState {
         int64_t sequenceNumber;
 
 
+#ifdef _TLS_THREAD_LOCAL_
         /*
          * For no apparent reason, they decided to make the
          * names of thee things really obscure. Client write is used
@@ -124,8 +140,42 @@ class ConnectionState {
         static cthread::ThreadLocal *currentWrite;
         static cthread::ThreadLocal *pendingRead;
         static cthread::ThreadLocal *pendingWrite;
+#endif
 
 };
+
+#ifndef _TLS_THREAD_LOCAL_
+class StateContainer {
+
+    public:
+        StateContainer() {
+            pendingRead = new ConnectionState;
+            pendingWrite = new ConnectionState;
+            currentRead = 0;
+            currentWrite = 0;
+        }
+        ~StateContainer() {
+            delete pendingRead;
+            delete pendingWrite;
+            delete currentRead;
+            delete currentWrite;
+        }
+
+    public:
+        ConnectionState *getCurrentRead() { return currentRead; }
+        ConnectionState *getCurrentWrite() { return currentWrite; }
+        ConnectionState *getPendingRead() { return pendingRead; }
+        ConnectionState *getPendingWrite() { return pendingWrite; }
+
+   private:
+       friend class ConnectionState;
+       ConnectionState *currentRead;
+       ConnectionState *currentWrite;
+       ConnectionState *pendingRead;
+       ConnectionState *pendingWrite;
+
+};
+#endif
 
 }
 

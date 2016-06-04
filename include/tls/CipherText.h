@@ -9,10 +9,18 @@ namespace CK {
 
 namespace CKTLS {
 
+#ifndef _TLS_THREAD_LOCAL_
+class StateContainer;
+#endif
+
 class CipherText : public RecordProtocol {
 
     public:
+#ifdef _TLS_THREAD_LOCAL_
         CipherText();
+#else
+        CipherText(StateContainer *holder);
+#endif
         ~CipherText();
 
     private:
@@ -46,6 +54,9 @@ class CipherText : public RecordProtocol {
         coder::ByteArray key;
         coder::ByteArray iv;
         coder::ByteArray plaintext;
+#ifndef _TLS_THREAD_LOCAL_
+        StateContainer *holder;
+#endif
 
 };
 
