@@ -1,11 +1,18 @@
 #ifndef CKTLSEXCEPTION_H_INCLUDED
 #define CKTLSEXCEPTION_H_INCLUDED
 
+#include <exception>
 #include <string>
+
+#ifdef __MACH__
+#define EXCEPTION_THROW_SPEC throw()
+#else
+#define EXCEPTION_THROW_SPEC noexcept
+#endif
 
 namespace CKTLS {
 
-class TLSException {
+class TLSException  : public std::exception {
 
     protected:
         TLSException() {}
@@ -17,10 +24,10 @@ class TLSException {
         TLSException& operator= (const TLSException& other);
 
     public:
-        virtual ~TLSException() {}
+        ~TLSException() {}
 
     public:
-        virtual const std::string& what() const { return message; }
+        const char *what() const EXCEPTION_THROW_SPEC { return message.c_str(); }
 
     private:
         std::string message;
@@ -29,4 +36,4 @@ class TLSException {
 
 }
 
-#endif // CKTLSBADPARAMETEREXCEPTION_H_INCLUDED
+#endif // CKTLSEXCEPTION_H_INCLUDED
