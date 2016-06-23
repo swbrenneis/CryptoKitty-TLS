@@ -3,7 +3,7 @@
 
 #include "tls/HandshakeBody.h"
 #include "tls/TLSConstants.h"
-#include "keys/ECDHKeyExchange.h"
+#include "CryptoKitty-C/keys/ECDHKeyExchange.h"
 
 namespace CK {
     class RSAPrivateKey;

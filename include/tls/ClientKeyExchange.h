@@ -3,8 +3,8 @@
 
 #include "tls/HandshakeBody.h"
 #include "tls/TLSConstants.h"
-#include "keys/ECDHKeyExchange.h"
-#include "data/BigInteger.h"
+#include "CryptoKitty-C/keys/ECDHKeyExchange.h"
+#include "CryptoKitty-C/data/BigInteger.h"
 
 namespace CK {
     class RSAPrivateKey;
