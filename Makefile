@@ -21,8 +21,7 @@ endif
 
 CPP= g++
 CPPDEFINES= -D_GNU_SOURCE -D_REENTRANT
-CPPINCLUDES= -Iinclude -I$(DEV_HOME)/include -I$(DEV_HOME)/include/CryptoKitty-C \
-			 -I$(DEV_HOME)/include/CryptoKitty-PGP
+CPPINCLUDES= -Iinclude -I$(DEV_HOME)/include -I$(DEV_HOME)/include/CryptoKitty-PGP
 CPPFLAGS= -Wall -g -MMD -std=c++11 -fPIC $(CPPDEFINES) $(CPPINCLUDES)
 
 TLSSOURCES= Alert.cc ChangeCipherSpec.cc CipherSuiteManager.cc CipherText.cc \

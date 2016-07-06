@@ -1,8 +1,8 @@
 #include "tls/ConnectionState.h"
-#include "digest/SHA256.h"
-#include "mac/HMAC.h"
 #include "tls/exceptions/StateException.h"
 #include "tls/exceptions/BadParameterException.h"
+#include <CryptoKitty-C/digest/SHA256.h>
+#include <CryptoKitty-C/mac/HMAC.h>
 #include <iostream>
 
 #ifdef _TLS_THREAD_LOCAL_

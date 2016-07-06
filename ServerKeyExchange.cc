@@ -1,15 +1,15 @@
 #include "tls/ServerKeyExchange.h"
 #include "tls/ConnectionState.h"
 #include "tls/ServerCertificate.h"
-#include "cipher/PKCS1rsassa.h"
-#include "keys/RSAPrivateKey.h"
-#include "coder/Unsigned16.h"
-#include "coder/Unsigned32.h"
-#include "digest/SHA256.h"
-#include "digest/SHA384.h"
-#include "digest/SHA512.h"
 #include "tls/exceptions/RecordException.h"
 #include "tls/exceptions/EncodingException.h"
+#include <coder/Unsigned16.h>
+#include <coder/Unsigned32.h>
+#include <CryptoKitty-C/cipher/PKCS1rsassa.h>
+#include <CryptoKitty-C/keys/RSAPrivateKey.h>
+#include <CryptoKitty-C/digest/SHA256.h>
+#include <CryptoKitty-C/digest/SHA384.h>
+#include <CryptoKitty-C/digest/SHA512.h>
 
 namespace CKTLS {
 
