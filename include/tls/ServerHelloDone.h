@@ -1,7 +1,7 @@
 #ifndef SERVERHELLODONE_H_INCLUDED
 #define SERVERHELLODONE_H_INCLUDED
 
-#include "tls/HandshakeBody.h"
+#include "HandshakeBody.h"
 
 namespace CKTLS {
 

@@ -1,7 +1,7 @@
 #ifndef HANDSHAKERECORD_H_INCLUDED
 #define HANDSHAKERECORD_H_INCLUDED
 
-#include "tls/RecordProtocol.h"
+#include "RecordProtocol.h"
 
 namespace CKTLS {
 

@@ -1,8 +1,8 @@
 #ifndef CLIENTKEYEXCHANGE_H_INCLUDED
 #define CLIENTKEYEXCHANGE_H_INCLUDED
 
-#include "tls/HandshakeBody.h"
-#include "tls/TLSConstants.h"
+#include "HandshakeBody.h"
+#include "TLSConstants.h"
 #include "CryptoKitty-C/keys/ECDHKeyExchange.h"
 #include "CryptoKitty-C/data/BigInteger.h"
 

@@ -1,7 +1,7 @@
 #ifndef CIPHERTEXT_H_INCLUDED
 #define CIPHERTEXT_H_INCLUDED
 
-#include "tls/RecordProtocol.h"
+#include "RecordProtocol.h"
 
 namespace CK {
     class Cipher;

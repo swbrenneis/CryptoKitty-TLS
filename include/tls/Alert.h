@@ -1,7 +1,7 @@
 #ifndef ALERT_H_INCLUDED
 #define ALERT_H_INCLUDED
 
-#include "tls/RecordProtocol.h"
+#include "RecordProtocol.h"
 
 namespace CKTLS {
 

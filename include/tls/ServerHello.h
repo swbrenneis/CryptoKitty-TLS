@@ -1,9 +1,9 @@
 #ifndef SERVERHELLO_H_INCLUDED
 #define SERVERHELLO_H_INCLUDED
 
-#include "tls/HandshakeBody.h"
-#include "tls/CipherSuiteManager.h"
-#include "tls/ExtensionManager.h"
+#include "HandshakeBody.h"
+#include "CipherSuiteManager.h"
+#include "ExtensionManager.h"
 #include <iostream>
 
 namespace CKTLS {

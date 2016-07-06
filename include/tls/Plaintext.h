@@ -1,7 +1,7 @@
 #ifndef PLAINTEXT_H_INCLUDED
 #define PLAINTEXT_H_INCLUDED
 
-#include "tls/RecordProtocol.h"
+#include "RecordProtocol.h"
 
 namespace CKTLS {
 

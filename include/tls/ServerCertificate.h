@@ -1,8 +1,8 @@
 #ifndef SERVERCERTIFICATE_H_INCLUDED
 #define SERVERCERTIFICATE_H_INCLUDED
 
-#include "tls/HandshakeBody.h"
-#include "tls/PGPCertificate.h"
+#include "HandshakeBody.h"
+#include "PGPCertificate.h"
 
 namespace CK {
     class RSAPrivateKey;

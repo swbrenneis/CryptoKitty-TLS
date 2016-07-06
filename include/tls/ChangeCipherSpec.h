@@ -1,7 +1,7 @@
 #ifndef CHANGECIPHERSPEC_H_INCLUDED
 #define CHANGECIPHERSPEC_H_INCLUDED
 
-#include "tls/RecordProtocol.h"
+#include "RecordProtocol.h"
 
 namespace CK {
     class Cipher;

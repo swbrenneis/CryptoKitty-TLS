@@ -1,7 +1,7 @@
 #ifndef STATEEXCEPTION_H_INCLUDED
 #define STATEEXCEPTION_H_INCLUDED
 
-#include "tls/exceptions/TLSException.h"
+#include "TLSException.h"
 #include <string>
 
 namespace CKTLS {

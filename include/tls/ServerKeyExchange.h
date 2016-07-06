@@ -1,8 +1,8 @@
 #ifndef SERVERKEYEXCHANGE_H_INCLUDED
 #define SERVERKEYEXCHANGE_H_INCLUDED
 
-#include "tls/HandshakeBody.h"
-#include "tls/TLSConstants.h"
+#include "HandshakeBody.h"
+#include "TLSConstants.h"
 #include "CryptoKitty-C/keys/ECDHKeyExchange.h"
 
 namespace CK {

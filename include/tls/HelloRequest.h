@@ -1,7 +1,7 @@
 #ifndef HELLOREQUEST_H_INCLUDED
 #define HELLOREQUEST_H_INCLUDED
 
-#include "tls/HandshakeBody.h"
+#include "HandshakeBody.h"
 
 namespace CKTLS {
 

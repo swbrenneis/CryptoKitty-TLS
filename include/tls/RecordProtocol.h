@@ -1,7 +1,7 @@
 #ifndef RECORDPROTOCOL_H_INCLUDED
 #define RECORDPROTOCOL_H_INCLUDED
 
-#include "tls/TLSConstants.h"
+#include "TLSConstants.h"
 #include "coder/ByteArray.h"
 
 namespace CKTLS {

@@ -1,7 +1,7 @@
 #ifndef CIPHERSUITEMANAGER_H_INCLUDED
 #define CIPHERSUITEMANAGER_H_INCLUDED
 
-#include "tls/TLSConstants.h"
+#include "TLSConstants.h"
 #include "coder/ByteArray.h"
 #include <deque>
 #include <iostream>

@@ -1,11 +1,11 @@
 #ifndef PGPCERTIFICATE_H_INCLUDED
 #define PGPCERTIFICATE_H_INCLUDED
 
-#include "openpgp/packet/PublicKey.h"
-#include "openpgp/packet/PublicSubkey.h"
-#include "openpgp/packet/Signature.h"
-#include "openpgp/packet/UserID.h"
-#include "openpgp/packet/UserAttribute.h"
+#include "CryptoKitty-PGP/openpgp/packet/PublicKey.h"
+#include "CryptoKitty-PGP/openpgp/packet/PublicSubkey.h"
+#include "CryptoKitty-PGP/openpgp/packet/Signature.h"
+#include "CryptoKitty-PGP/openpgp/packet/UserID.h"
+#include "CryptoKitty-PGP/openpgp/packet/UserAttribute.h"
 #include <iostream>
 
 namespace CKTLS {

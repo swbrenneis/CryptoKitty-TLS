@@ -1,7 +1,7 @@
 #ifndef CKTLSENCODINGEXCEPTION_H_INCLUDED
 #define CKTLSENCODINGEXCEPTION_H_INCLUDED
 
-#include "tls/exceptions/TLSException.h"
+#include "TLSException.h"
 #include <string>
 
 namespace CKTLS {

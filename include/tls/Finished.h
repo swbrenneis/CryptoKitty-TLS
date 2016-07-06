@@ -1,7 +1,7 @@
 #ifndef FINISHED_H_INCLUDED
 #define FINISHED_H_INCLUDED
 
-#include "tls/HandshakeBody.h"
+#include "HandshakeBody.h"
 
 namespace CKTLS {
 

@@ -1,7 +1,7 @@
 #ifndef CONNECTIONSTATE_H_INCLUDED
 #define CONNECTIONSTATE_H_INCLUDED
 
-#include "tls/TLSConstants.h"
+#include "TLSConstants.h"
 #include "coder/ByteArray.h"
 
 namespace cthread {
