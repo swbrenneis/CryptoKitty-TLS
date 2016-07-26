@@ -8,6 +8,8 @@
 
 namespace CKTLS {
 
+static const uint32_t AEAD_TAGLENGTH = 16;
+
 #ifdef _TLS_THREAD_LOCAL_
 CipherText::CipherText()
 : RecordProtocol(application_data) {
@@ -63,13 +65,12 @@ void CipherText::decryptGCM(CK::Cipher *cipher) {
     CK::GCM gcm(cipher, iv);
 
     coder::ByteArray ad;
-    uint64_t sequence = state->getSequenceNumber();
-    coder::Unsigned64 u64(sequence);
+    coder::Unsigned64 u64(state->getSequenceNumber());
     ad.append(u64.getEncoded(coder::bigendian));
     ad.append(CKTLS::application_data);
     ad.append(3);
     ad.append(3);
-    coder::Unsigned16 u16(fragment.getLength());
+    coder::Unsigned16 u16(fragment.getLength() - AEAD_TAGLENGTH);
     ad.append(u16.getEncoded(coder::bigendian));
 
     gcm.setAuthData(ad);
@@ -132,54 +133,6 @@ void CipherText::encryptGCM(CK::Cipher *cipher) {
     fragment.append(gcm.encrypt(plaintext, key));
 
 }
-
-/*const coder::ByteArray& CipherText::getPlaintext() const {
-
-    return plaintext;
-
-}
-
-void CipherText::setAlgorithm(BulkCipherAlgorithm alg) {
-
-    algorithm = alg;
-
-}
-
-void CipherText::setCipherType(CipherType cipher) {
-
-    type = cipher;
-
-}
-
-void CipherText::setIV(const coder::ByteArray& i) {
-
-    iv = i;
-
-}
-
-void CipherText::setKey(const coder::ByteArray& k) {
-
-    key = k;
-
-}
-
-void CipherText::setKeyLength(uint32_t keylength) {
-
-    keyLength = keylength / 8;
-
-}
-
-void CipherText::setPlaintext(const coder::ByteArray& plain) {
-
-    plaintext = plain;
-
-}
-
-void CipherText::setSequenceNumber(uint64_t seq) {
-
-    sequence = seq;
-
-}*/
 
 }
 
