@@ -47,23 +47,18 @@ void ChangeCipherSpec::decode() {
             {
             CK::Cipher *cipher = getCipher(state);
             const coder::ByteArray& iv(state->getIV());
-            //std::cout << "Decode IV = " << iv << std::endl;
             CK::GCM gcm(cipher, iv);
             const coder::ByteArray& key(state->getEncryptionKey());
-            //std::cout << "Decode Key = " << key << std::endl;
             coder::Unsigned64 seq(state->getSequenceNumber());
             coder::ByteArray ad(seq.getEncoded(coder::bigendian));
             ad.append(0);   // Compression type.
             ad.append(MAJORVERSION);   // Major version.
             ad.append(MINORVERSION);   // Minor version.
             ad.append(1);   // Data length.
-            //std::cout << "Decode ad = " << ad << std::endl;
             gcm.setAuthData(ad);
-            // See the encode method for an explanation of the auth tag.
             if (fragment.getLength() != 17) {
                 throw EncodingException("Invalid ciphertext");
             }
-            gcm.setAuthTag(fragment.range(1, 16));
             coder::ByteArray plaintext(gcm.decrypt(fragment.range(0, 1), key));
             if (plaintext.getLength() != 1 || plaintext[0] != 1) {
                 throw EncodingException("Invalid plaintext");
@@ -95,10 +90,8 @@ void ChangeCipherSpec::encode() {
             {
             CK::Cipher *cipher = getCipher(state);
             const coder::ByteArray& iv(state->getIV());
-            //std::cout << "Encode IV = " << iv << std::endl;
             CK::GCM gcm(cipher, iv);
             const coder::ByteArray& key(state->getEncryptionKey());
-            //std::cout << "Encode Key = " << key << std::endl;
             coder::Unsigned64 seq(state->getSequenceNumber());
             coder::ByteArray ad(seq.getEncoded(coder::bigendian));
             ad.append(0);   // Compression type.
@@ -106,18 +99,12 @@ void ChangeCipherSpec::encode() {
             ad.append(MINORVERSION);   // Minor version.
             ad.append(1);   // Data length.
             gcm.setAuthData(ad);
-            //std::cout << "Encode ad = " << ad << std::endl;
             coder::ByteArray ciphertext(gcm.encrypt(plaintext, key));
-            if (ciphertext.getLength() != 1) {
+            // We're using the default authentication tag length of 128 bits.
+            if (ciphertext.getLength() != 17) {
                 throw RecordException("Invalid ciphertext");
             }
             fragment.append(ciphertext);
-            // The RFC says there is no additional authentication, but GCM requires an
-            // authentication tag. We could just set up the GCM cipher to ignore the tag,
-            // but that would weaken the cipher since the AD is easy to recreate. So,
-            // we're going to append the auth tag to the end of the block. The tag length
-            // is always 16.
-            fragment.append(gcm.getAuthTag());
             }
             break;
     }
