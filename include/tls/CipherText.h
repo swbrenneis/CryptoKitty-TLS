@@ -28,31 +28,30 @@ class CipherText : public RecordProtocol {
         CipherText& operator= (const CipherText& other);
 
     public:
-        const coder::ByteArray& getPlaintext() const;
-        void setAlgorithm(BulkCipherAlgorithm alg);
-        void setCipherType(CipherType cipher);
-        void setIV(const coder::ByteArray& iv);
-        void setKey(const coder::ByteArray& key);
-        void setKeyLength(uint32_t keylength);
-        void setPlaintext(const coder::ByteArray& plain);
-        void setSequenceNumber(uint64_t seq);
+        const coder::ByteArray& getPlaintext() const { return plaintext; }
+        //void setAlgorithm(BulkCipherAlgorithm alg);
+        //void setCipherType(CipherType cipher);
+        //void setIV(const coder::ByteArray& iv);
+        //void setKey(const coder::ByteArray& key);
+        //void setKeyLength(uint32_t keylength);
+        void setPlaintext(const coder::ByteArray& plain) { plaintext = plain; }
+        //void setSequenceNumber(uint64_t seq);
 
     protected:
         void encode();
         void decode();
 
     private:
-        void decryptGCM(const coder::ByteArray& ciphertext,
-                            CK::Cipher *cipher, const coder::ByteArray& tag);
+        void decryptGCM(CK::Cipher *cipher);
         void encryptGCM(CK::Cipher *cipher);
 
     private:
-        BulkCipherAlgorithm algorithm;
-        CipherType type;
-        uint32_t keyLength;
-        uint64_t sequence;
-        coder::ByteArray key;
-        coder::ByteArray iv;
+        //BulkCipherAlgorithm algorithm;
+        //CipherType type;
+        //uint32_t keyLength;
+        //uint64_t sequence;
+        //coder::ByteArray key;
+        //coder::ByteArray iv;
         coder::ByteArray plaintext;
 #ifndef _TLS_THREAD_LOCAL_
         StateContainer *holder;
