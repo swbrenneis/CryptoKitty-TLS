@@ -59,7 +59,7 @@ void ChangeCipherSpec::decode() {
             if (fragment.getLength() != 17) {
                 throw EncodingException("Invalid ciphertext");
             }
-            coder::ByteArray plaintext(gcm.decrypt(fragment.range(0, 1), key));
+            coder::ByteArray plaintext(gcm.decrypt(fragment, key));
             if (plaintext.getLength() != 1 || plaintext[0] != 1) {
                 throw EncodingException("Invalid plaintext");
             }
